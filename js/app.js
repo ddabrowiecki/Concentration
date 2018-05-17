@@ -59,7 +59,7 @@ $(document).ready(function(){
 		deck = shuffle(deck);
 		$(".card").children().each(function(index) {
 			$(this).replaceWith("<i class = \"" + deck[index] + "\"></i>");
-			/*$(".deck").children().toggleClass("card");*/
+			$(".card").toggleClass("show",false);
 			});
 		});
 	});
@@ -81,3 +81,7 @@ $(document).ready(function(){
  		$(this).toggleClass("show");
  	});
  });
+
+$(document).ready(function addToOpenCardList(){
+
+});
