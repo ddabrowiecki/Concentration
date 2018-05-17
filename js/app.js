@@ -59,6 +59,7 @@ $(document).ready(function(){
 		deck = shuffle(deck);
 		$(".card").children().each(function(index) {
 			$(this).replaceWith("<i class = \"" + deck[index] + "\"></i>");
+			/*$(".deck").children().toggleClass("card");*/
 			});
 		});
 	});
@@ -75,6 +76,8 @@ $(document).ready(function(){
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
- /*function showCardSymbol(){
- 	$("card").click(toggle($(".card.show")));
- };*/
+ $(document).ready(function showCardSymbol(){
+ 	$(".card").click(function () {
+ 		$(this).toggleClass("show");
+ 	});
+ });
