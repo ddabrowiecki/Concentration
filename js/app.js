@@ -28,7 +28,6 @@ var deck =
 
 /*var deck = cards.toArray();*/
 
-console.log(deck);
 
 /*
  * Display the cards on the page
@@ -76,12 +75,28 @@ $(document).ready(function(){
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
- $(document).ready(function showCardSymbol(){
+ function showCardSymbol(){
  	$(".card").click(function () {
  		$(this).toggleClass("show");
  	});
- });
+ };
 
-$(document).ready(function addToOpenCardList(){
+ showCardSymbol();
 
-});
+var openCardList = [];
+
+function addToOpenCardList(){
+	$(".card").click(function () {
+ 		openCardList.push($(this).children().html());
+	});
+};
+
+addToOpenCardList();
+console.log(openCardList);
+
+function matchCards(card,otherCard){
+	if (openCardList.includes(card)){
+		card.toggleClass("match");
+		otherCard.toggleClass("match");
+	};
+};
