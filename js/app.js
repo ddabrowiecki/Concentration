@@ -1,8 +1,8 @@
 /*
  * Create a list that holds all of your cards
  */
-/*var cards = 
-"fa fa-diamond",
+var deck =
+["fa fa-diamond",
 "fa fa-diamond",
 "fa fa-paper-plane-o",
 "fa fa-paper-plane-o",
@@ -19,14 +19,14 @@
 "fa fa-bicycle",
 "fa fa-bicycle",
 "fa fa-bomb",
-"fa fa-bomb"*/
+"fa fa-bomb"]
 
-var cards = $(".card").children();
+/*var cards = $(".card").children();*/
 
 
 //Create array with elements
 
-var deck = cards.toArray();
+/*var deck = cards.toArray();*/
 
 console.log(deck);
 
@@ -57,14 +57,11 @@ function shuffle(array) {
 $(document).ready(function(){
 	$(".restart").on("click", function(){
 		deck = shuffle(deck);
-		console.log(deck);
-		$(".card").children().each(function() {
-			for (i = 0; i < deck.length; i ++) {
-				$(this).replaceWith(deck[i]);
-			}
+		$(".card").children().each(function(index) {
+			$(this).replaceWith("<i class = \"" + deck[index] + "\"></i>");
+			});
 		});
 	});
-});
 
 
 /*
