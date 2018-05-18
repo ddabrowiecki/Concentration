@@ -79,24 +79,27 @@ $(document).ready(function(){
  	$(".card").click(function () {
  		$(this).toggleClass("show");
  	});
- };
-
- showCardSymbol();
+ }
 
 var openCardList = [];
 
 function addToOpenCardList(){
 	$(".card").click(function () {
- 		openCardList.push($(this).children().html());
-	});
-};
+ 		openCardList.push($(".card").children());
+ 	});
+}
 
+showCardSymbol();
 addToOpenCardList();
-console.log(openCardList);
 
-function matchCards(card,otherCard){
-	if (openCardList.includes(card)){
-		card.toggleClass("match");
-		otherCard.toggleClass("match");
-	};
-};
+function matchCards(array){
+	if (array.includes($(".card").children())){
+		$(this).toggleClass("match");
+	}
+	else {
+		array = array.slice(-2);
+		$(this).toggleClass("show", false)
+	}
+}
+
+matchCards(openCardList);
