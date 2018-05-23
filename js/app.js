@@ -21,6 +21,9 @@ var deck =
 "fa fa-bomb",
 "fa fa-bomb"]
 
+var currentClicks = 0;
+const maxClicks = 2;
+
 /*var cards = $(".card").children();*/
 
 
@@ -74,25 +77,48 @@ $(document).ready(function(){
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+var cardCheck = [];
+var matchedCards = [];
 
  function showCardSymbol(){
- 	$(".card").click(function () {
+ 	$(".card").click(function(){
  		$(this).toggleClass("show");
- 	});
- }
+ 		cardCheck.push($(this).children());
+ 		console.log(cardCheck);
+ 	}
+ )};
 
-var openCardList = [];
+function hideCardSymbol(){
+	$(".card").toggleClass("show", false);
+}
 
-function addToOpenCardList(){
-	$(".card").click(function () {
- 		openCardList.push($(".card").children());
+function checkMatches(cardArray) {
+	if (cardCheck[0] == cardCheck[1]) {
+		matchedCards.push(cardCheck[0],cardCheck[1]);
+	}
+	else {
+		cardCheck.length = 0;
+		hideCardSymbol();
+	}
+}
+
+function addToCardCheck(){
+	$(".card").click(function(){
+		if (currentClicks <= maxClicks) {
+ 			cardCheck.push($(this));
+ 			currentClicks++;
+ 	}
+ 		else {
+ 			checkMatches(cardCheck);
+ 			console.log(matchedCards);
+ 		}
  	});
 }
 
 showCardSymbol();
-addToOpenCardList();
+checkMatches(cardCheck);
 
-function matchCards(array){
+/*function matchCards(array){
 	if (array.includes($(".card").children())){
 		$(this).toggleClass("match");
 	}
@@ -102,4 +128,4 @@ function matchCards(array){
 	}
 }
 
-matchCards(openCardList);
+*/
