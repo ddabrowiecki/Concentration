@@ -2,34 +2,25 @@
  * Create a list that holds all of your cards
  */
 var deck =
-["fa fa-diamond",
-"fa fa-diamond",
-"fa fa-paper-plane-o",
-"fa fa-paper-plane-o",
-"fa fa-anchor",
-"fa fa-anchor",
-"fa fa-bolt",
-"fa fa-bolt",
-"fa fa-cube",
-"fa fa-cube",
-"fa fa-anchor",
-"fa fa-anchor",
-"fa fa-leaf",
-"fa fa-leaf",
-"fa fa-bicycle",
-"fa fa-bicycle",
-"fa fa-bomb",
-"fa fa-bomb"]
+["diamond",
+"paper-plane-o",
+"anchor",
+"bolt",
+"cube",
+"anchor",
+"leaf",
+"bicycle",
+"diamond",
+"bomb",
+"leaf",
+"bomb",
+"bolt",
+"bicycle",
+"paper-plane-o",
+"cube"]
 
 var currentClicks = 0;
 const maxClicks = 2;
-
-/*var cards = $(".card").children();*/
-
-
-//Create array with elements
-
-/*var deck = cards.toArray();*/
 
 
 /*
@@ -60,7 +51,7 @@ $(document).ready(function(){
 	$(".restart").on("click", function(){
 		deck = shuffle(deck);
 		$(".card").children().each(function(index) {
-			$(this).replaceWith("<i class = \"" + deck[index] + "\"></i>");
+			$(this).replaceWith("<i id = \"" + deck[index] + "\" class = \"fa fa-" + deck[index] + "\"></i>");
 			$(".card").toggleClass("show",false);
 			});
 		});
@@ -80,52 +71,38 @@ $(document).ready(function(){
 var cardCheck = [];
 var matchedCards = [];
 
- function showCardSymbol(){
- 	$(".card").click(function(){
- 		$(this).toggleClass("show");
- 		cardCheck.push($(this).children());
- 		console.log(cardCheck);
- 	}
- )};
+function showCardSymbol(card){
+ 	card.toggleClass("show");
+ };
 
-function hideCardSymbol(){
-	$(".card").toggleClass("show", false);
+function addToCardCheck(card){
+ 	cardCheck.push(card.html());
 }
 
-function checkMatches(cardArray) {
-	if (cardCheck[0] == cardCheck[1]) {
-		matchedCards.push(cardCheck[0],cardCheck[1]);
+function checkMatches() {
+	if (cardCheck.length < 2) {
+		if (cardCheck[0] === cardCheck[1]){
+			matchedCards.push(cardCheck[0],cardCheck[1]);
+			cardCheck.length = 0;
+			console.log(matchedCards);
+		}
 	}
 	else {
 		cardCheck.length = 0;
-		hideCardSymbol();
 	}
 }
 
-function addToCardCheck(){
-	$(".card").click(function(){
-		if (currentClicks <= maxClicks) {
- 			cardCheck.push($(this));
- 			currentClicks++;
- 	}
- 		else {
- 			checkMatches(cardCheck);
- 			console.log(matchedCards);
- 		}
- 	});
+function hideCardSymbol(card){
+	c.toggleClass("show", false);
 }
 
-showCardSymbol();
-checkMatches(cardCheck);
-
-/*function matchCards(array){
-	if (array.includes($(".card").children())){
-		$(this).toggleClass("match");
-	}
-	else {
-		array = array.slice(-2);
-		$(this).toggleClass("show", false)
-	}
+function makeMove(){
+	$(".card").click(function(e){
+		showCardSymbol($(e.target));
+		addToCardCheck($(e.target));
+		checkMatches();
+	});
 }
 
-*/
+makeMove();
+/*checkMatches(cardCheck);*/
