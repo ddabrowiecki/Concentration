@@ -52,7 +52,7 @@ $(document).ready(function(){
 		deck = shuffle(deck);
 		$(".card").children().each(function(index) {
 			$(this).replaceWith("<i id = \"" + deck[index] + "\" class = \"fa fa-" + deck[index] + "\"></i>");
-			$(".card").toggleClass("show",false);
+			$(".card").removeClass("show").removeClass("match");
 			});
 		});
 	});
@@ -72,37 +72,46 @@ var cardCheck = [];
 var matchedCards = [];
 
 function showCardSymbol(card){
- 	card.toggleClass("show");
+ 	card.addClass("show");
  };
 
-function addToCardCheck(card){
- 	cardCheck.push(card.html());
+function hideCardSymbol(card1,card2) {
+	$(".card." + card1 + "").removeClass("show");
+	$(".card." + card2 + "").removeClass("show");
+	cardCheck.length = 0;
 }
 
-function checkMatches() {
-	if (cardCheck.length < 2) {
-		if (cardCheck[0] === cardCheck[1]){
-			matchedCards.push(cardCheck[0],cardCheck[1]);
-			cardCheck.length = 0;
-			console.log(matchedCards);
-		}
-	}
-	else {
+function addToCardCheck(card) {
+	wholeCardClass = card.attr("class")
+	wholeCardClass = wholeCardClass.split(" ");
+ 	cardCheck.push(wholeCardClass[1]);
+}
+
+function checkMatches(card1,card2) {
+	card1 = cardCheck[0];
+	card2 = cardCheck[1];
+	if (card1 === card2){
+		$(".card." + card1 + "").removeClass("show").addClass("match");
+		matchedCards.push(card1,card2);
 		cardCheck.length = 0;
 	}
+	else {
+		setTimeout(function(){
+			hideCardSymbol(card1,card2)
+		},500);
+	}
 }
 
-function hideCardSymbol(card){
-	c.toggleClass("show", false);
-}
+/*Make sure to set logic so that clicking the same card twice doesn't make you win*/
 
 function makeMove(){
 	$(".card").click(function(e){
 		showCardSymbol($(e.target));
 		addToCardCheck($(e.target));
-		checkMatches();
+		if (cardCheck.length === 2) {
+			checkMatches();
+		};
 	});
 }
 
 makeMove();
-/*checkMatches(cardCheck);*/
