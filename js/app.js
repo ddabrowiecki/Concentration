@@ -19,10 +19,6 @@ var deck =
 "paper-plane-o",
 "cube"]
 
-var currentClicks = 0;
-const maxClicks = 2;
-
-
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -47,16 +43,19 @@ function shuffle(array) {
 
 // Shuffle cards upon clicking the restart element
 
-$(document).ready(function(){
-	$(".restart").on("click", function(){
-		deck = shuffle(deck);
-		$(".card").children().each(function(index) {
-			$(this).replaceWith("<i id = \"" + deck[index] + "\" class = \"fa fa-" + deck[index] + "\"></i>");
-			$(".card").removeClass("show").removeClass("match");
-			});
-		});
+function shuffleCards(){
+	deck = shuffle(deck);
+	$(".deck").children().each(function(index) {
+		$(this).children().replaceWith("<li class=\"card " + deck[index] + "\"><i id = \"" + deck[index] + "\" class = \"fa fa-" + deck[index] + "\"></i></li>");
+		$(".card").removeClass("show").removeClass("match");
 	});
+}
 
+$(document).ready(function(){
+	$(".restart").click(function(){
+		shuffleCards();
+	});
+});
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -102,16 +101,51 @@ function checkMatches(card1,card2) {
 	}
 }
 
+function movesCounter() {
+	$(".card").click(function(){
+		var i = 1;
+		$(".moves").html(i);
+		i++;
+		return i;
+	});
+}
+
+function congratsMessage(){
+	if (matchedCards === 16){
+		alert("Congratulations!")
+	}
+}
+
 /*Make sure to set logic so that clicking the same card twice doesn't make you win*/
 
 function makeMove(){
 	$(".card").click(function(e){
 		showCardSymbol($(e.target));
 		addToCardCheck($(e.target));
+		movesCounter();
 		if (cardCheck.length === 2) {
 			checkMatches();
 		};
+		congratsMessage();
 	});
 }
 
+/*Timer function from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript*/
+
+$(document).ready(function(){
+	$(".card").click(function(){
+	var sec = 0;
+	    function pad ( val ) { return val > 9 ? val : "0" + val; }
+	    setInterval( function(){
+	        $("#seconds").html(pad(++sec%60));
+	        $("#minutes").html(pad(parseInt(sec/60,10)));
+	    }, 1000);
+	});
+})
+
+
 makeMove();
+
+/*if (matchedCard.length = 16) {
+}
+*/
