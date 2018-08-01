@@ -13,6 +13,7 @@ Download the Javascript file with the .html and .css files.  When index.html is 
 ## Built With
 
 SublimeText - Text Editor
+
 Udacity - Instruction in jQuery, HTML/CSS and JavaScript.
 
 
