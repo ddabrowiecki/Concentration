@@ -1,20 +1,17 @@
-# Memory Game Project
+Memory Game Project
+This project is a concentration memory game.  Users flip cards to reveal symbols.  Match the card with its proper pair, and the symbols stay revealed.  When all the symbols are revealed, you win!
 
-## Table of Contents
+This project is the final project for the Introduction to Programming Nanodegree with Udacity.
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+Getting Started
+Download the Javascript file with the .html and .css files.  When index.html is run, the project should appear in your browser.  Play on and when you finish you will see user statistics on how well you did.
 
-## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Built With
+SublimeText - Text Editor
+Udacity - Instruction in jQuery, HTML/CSS and JavaScript.
 
-To get started, open `js/app.js` and start building out the app's functionality
+Authors
+Dominic Dabrowiecki
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
 
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
