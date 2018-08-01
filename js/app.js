@@ -20,6 +20,53 @@ var deck =
 "cube"]
 
 /*
+Create a click counter to use for various functions
+*/
+
+var numberClicks = 0;
+var rating;
+var sec;
+var timerStart;
+
+function clickCounter() {
+	$(".card").click(function(){
+		numberClicks++;
+		if(numberClicks % 2 === 0) {
+			$(".moves").html(numberClicks / 2);
+		}
+		starRating();
+	});
+}
+
+/*
+Create star rating system to disappear incrementally the more moves a user makes
+*/
+
+var star1 = $(".stars").children()[0];
+var star2 = $(".stars").children()[1];
+var star3 = $(".stars").children()[2];
+
+function starRating() {
+	if (numberClicks < 4){
+		rating = "3 -- Super Expert";
+	} else if (numberClicks >= 4 && numberClicks < 28) {
+		star3.remove();
+		rating = "2 -- Professional";
+	} else if (numberClicks >= 28 && numberClicks < 36) {
+		star2.remove();
+		rating = "1 -- Novice";
+	} else if (numberClicks >= 36) {
+		star1.remove();
+		rating = "0 -- Lame!";
+	}
+	return rating;
+}
+
+function returnStars() {
+	$(".stars").append(star1,star2,star3);
+}
+
+/*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
@@ -46,16 +93,9 @@ function shuffle(array) {
 function shuffleCards(){
 	deck = shuffle(deck);
 	$(".deck").children().each(function(index) {
-		$(this).children().replaceWith("<li class=\"card " + deck[index] + "\"><i id = \"" + deck[index] + "\" class = \"fa fa-" + deck[index] + "\"></i></li>");
-		$(".card").removeClass("show").removeClass("match");
+		$(this).replaceWith("<li class=\"card " + deck[index] + "\"><i class = \"fa fa-" + deck[index] + "\"></i></li>");
 	});
 }
-
-$(document).ready(function(){
-	$(".restart").click(function(){
-		shuffleCards();
-	});
-});
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -101,18 +141,32 @@ function checkMatches(card1,card2) {
 	}
 }
 
-function movesCounter() {
+/*Timer function from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript*/
+
+function timer() {
 	$(".card").click(function(){
-		var i = 1;
-		$(".moves").html(i);
-		i++;
-		return i;
+		if (numberClicks === 1){
+			var sec = 0;
+		    function pad (val) { return val > 9 ? val : "0" + val; }
+		    timerStart = setInterval(function(){
+		        $("#seconds").html(pad(++sec%60));
+		        $("#minutes").html(pad(parseInt(sec/60,10)));
+		    }, 1000);
+		}
 	});
+	return $("#minutes").html() + " minutes and " + $("#seconds").html() + " seconds";
+}
+
+function stopTimer() {
+	clearInterval(timerStart);
 }
 
 function congratsMessage(){
-	if (matchedCards === 16){
-		alert("Congratulations!")
+	if (matchedCards.length === 16){
+		setTimeout(function(){
+			alert("Congratulations! \n Time: " + timer() + "\n Star Rating: " + rating + "\n Do you want to play again?  Click the shuffle button.")
+		},1000);
+		stopTimer();
 	}
 }
 
@@ -122,7 +176,6 @@ function makeMove(){
 	$(".card").click(function(e){
 		showCardSymbol($(e.target));
 		addToCardCheck($(e.target));
-		movesCounter();
 		if (cardCheck.length === 2) {
 			checkMatches();
 		};
@@ -130,22 +183,26 @@ function makeMove(){
 	});
 }
 
-/*Timer function from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript*/
-
-$(document).ready(function(){
-	$(".card").click(function(){
-	var sec = 0;
-	    function pad ( val ) { return val > 9 ? val : "0" + val; }
-	    setInterval( function(){
-	        $("#seconds").html(pad(++sec%60));
-	        $("#minutes").html(pad(parseInt(sec/60,10)));
-	    }, 1000);
+function restartGame(){
+	$(".restart").click(function(){
+		shuffleCards();
+		numberClicks = 0;
+		matchedCards = [];
+		$(".moves").html(0);
+		stopTimer();
+		$("#minutes").html("");
+		$("#seconds").html("");
+		$(".card").removeClass("show").removeClass("match");
+		returnStars();
+		makeMove();
+		clickCounter();
+		timer();
 	});
-})
+}
 
-
+shuffleCards();
+restartGame();
+clickCounter();
+timer();
 makeMove();
 
-/*if (matchedCard.length = 16) {
-}
-*/
