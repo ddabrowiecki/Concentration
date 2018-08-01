@@ -20,13 +20,19 @@ var deck =
 "cube"]
 
 /*
-Create a click counter to use for various functions
+List of global variables
 */
 
 var numberClicks = 0;
 var rating;
 var sec;
 var timerStart;
+var cardCheck = [];
+var matchedCards = [];
+
+/*
+Create a click counter to use for various functions
+*/
 
 function clickCounter() {
 	$(".card").click(function(){
@@ -34,7 +40,7 @@ function clickCounter() {
 		if(numberClicks % 2 === 0) {
 			$(".moves").html(numberClicks / 2);
 		}
-		starRating();
+		starRating();  // Star rating function below -- rating and star elements are based on number of clicks
 	});
 }
 
@@ -47,9 +53,9 @@ var star2 = $(".stars").children()[1];
 var star3 = $(".stars").children()[2];
 
 function starRating() {
-	if (numberClicks < 4){
-		rating = "3 -- Super Expert";
-	} else if (numberClicks >= 4 && numberClicks < 28) {
+	if (numberClicks < 16){
+		rating = "3 -- Super Expert";  //Based on how many clicks a user makes before completion, they will be given a performance rating
+	} else if (numberClicks >= 16 && numberClicks < 28) {
 		star3.remove();
 		rating = "2 -- Professional";
 	} else if (numberClicks >= 28 && numberClicks < 36) {
@@ -61,6 +67,10 @@ function starRating() {
 	}
 	return rating;
 }
+
+/*
+The function below returns the star rating to its original state
+*/
 
 function returnStars() {
 	$(".stars").append(star1,star2,star3);
@@ -88,7 +98,9 @@ function shuffle(array) {
     return array;
 }
 
-// Shuffle cards upon clicking the restart element
+/*
+Shuffle cards and populate the shuffled symbols to reset the board
+*/
 
 function shuffleCards(){
 	deck = shuffle(deck);
@@ -107,12 +119,16 @@ function shuffleCards(){
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-var cardCheck = [];
-var matchedCards = [];
 
 function showCardSymbol(card){
  	card.addClass("show");
- };
+}
+
+function addToCardCheck(card) {  // Adds the identifying class of the selected card to an array
+	wholeCardClass = card.attr("class")
+	wholeCardClass = wholeCardClass.split(" ");
+ 	cardCheck.push(wholeCardClass[1]);
+}
 
 function hideCardSymbol(card1,card2) {
 	$(".card." + card1 + "").removeClass("show");
@@ -120,13 +136,7 @@ function hideCardSymbol(card1,card2) {
 	cardCheck.length = 0;
 }
 
-function addToCardCheck(card) {
-	wholeCardClass = card.attr("class")
-	wholeCardClass = wholeCardClass.split(" ");
- 	cardCheck.push(wholeCardClass[1]);
-}
-
-function checkMatches(card1,card2) {
+function checkMatches(card1,card2) {  //Verifies that the card classes in the array match -- if so, added to another array -- if not, card symbol is hidden
 	card1 = cardCheck[0];
 	card2 = cardCheck[1];
 	if (card1 === card2){
@@ -161,6 +171,10 @@ function stopTimer() {
 	clearInterval(timerStart);
 }
 
+/*
+Alerts a final congratulations message with user stats
+*/
+
 function congratsMessage(){
 	if (matchedCards.length === 16){
 		setTimeout(function(){
@@ -170,7 +184,9 @@ function congratsMessage(){
 	}
 }
 
-/*Make sure to set logic so that clicking the same card twice doesn't make you win*/
+/*
+Below function calls all relevant functions when a user clicks a card, thus making a move
+*/
 
 function makeMove(){
 	$(".card").click(function(e){
@@ -183,7 +199,7 @@ function makeMove(){
 	});
 }
 
-function restartGame(){
+function restartGame(){ //Reset the board when clicking the restart element
 	$(".restart").click(function(){
 		shuffleCards();
 		numberClicks = 0;
@@ -200,6 +216,10 @@ function restartGame(){
 	});
 }
 
+
+/*
+Call functions to make the game work
+*/
 shuffleCards();
 restartGame();
 clickCounter();
