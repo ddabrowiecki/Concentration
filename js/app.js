@@ -53,17 +53,14 @@ var star2 = $(".stars").children()[1];
 var star3 = $(".stars").children()[2];
 
 function starRating() {
-	if (numberClicks < 16){
+	if (numberClicks < 28){
 		rating = "3 -- Super Expert";  //Based on how many clicks a user makes before completion, they will be given a performance rating
-	} else if (numberClicks >= 16 && numberClicks < 28) {
+	} else if (numberClicks >= 28 && numberClicks < 36) {
 		star3.remove();
 		rating = "2 -- Professional";
-	} else if (numberClicks >= 28 && numberClicks < 36) {
-		star2.remove();
-		rating = "1 -- Novice";
 	} else if (numberClicks >= 36) {
 		star1.remove();
-		rating = "0 -- Lame!";
+		rating = "1 -- Novice";
 	}
 	return rating;
 }
@@ -122,6 +119,7 @@ function shuffleCards(){
 
 function showCardSymbol(card){
  	card.addClass("show");
+ 	card.addClass("disabled");  // This will ensure the card is not clickable when it is showed and is facing up.
 }
 
 function addToCardCheck(card) {  // Adds the identifying class of the selected card to an array
@@ -132,7 +130,9 @@ function addToCardCheck(card) {  // Adds the identifying class of the selected c
 
 function hideCardSymbol(card1,card2) {
 	$(".card." + card1 + "").removeClass("show");
+	$(".card." + card1 + "").removeClass("disabled");
 	$(".card." + card2 + "").removeClass("show");
+	$(".card." + card2 + "").removeClass("disabled");
 	cardCheck.length = 0;
 }
 
