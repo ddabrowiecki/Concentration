@@ -123,6 +123,7 @@ function showCardSymbol(card){
 }
 
 function addToCardCheck(card) {  // Adds the identifying class of the selected card to an array
+	var wholeCardClass;
 	wholeCardClass = card.attr("class")
 	wholeCardClass = wholeCardClass.split(" ");
  	cardCheck.push(wholeCardClass[1]);
@@ -172,14 +173,40 @@ function stopTimer() {
 }
 
 /*
+Javascript for the modal from https://sabe.io/tutorials/how-to-create-modal-popup-box
+*/
+
+var modal = document.querySelector(".modal");
+var matchGame = document.querySelector(".restart");
+var closeButton = document.querySelector(".close-button");
+var againButton = document.querySelector(".again-button");
+
+function toggleModal() {
+    modal.classList.toggle("show-modal");
+    $(".time").html(timer());
+    $(".rating").html(starRating());
+}
+
+function windowOnClick(event) {
+    if (event.target === modal) {
+        toggleModal();
+    }
+}
+
+matchGame.addEventListener("click", toggleModal);
+closeButton.addEventListener("click", toggleModal);
+window.addEventListener("click", windowOnClick);
+againButton.addEventListener("click", restartGame);
+
+/*
 Alerts a final congratulations message with user stats
 */
 
 function congratsMessage(){
-	if (matchedCards.length === 16){
+	if (matchedCards.length === 4){
 		setTimeout(function(){
-			alert("Congratulations! \n Time: " + timer() + "\n Star Rating: " + rating + "\n Do you want to play again?  Click the shuffle button.")
-		},1000);
+			toggleModal();
+			},1000);
 		stopTimer();
 	}
 }
@@ -215,7 +242,6 @@ function restartGame(){ //Reset the board when clicking the restart element
 		timer();
 	});
 }
-
 
 /*
 Call functions to make the game work
