@@ -17,7 +17,7 @@ var deck =
 "bolt",
 "bicycle",
 "paper-plane-o",
-"cube"]
+"cube"];
 
 /*
 List of global variables
@@ -124,7 +124,7 @@ function showCardSymbol(card){
 
 function addToCardCheck(card) {  // Adds the identifying class of the selected card to an array
 	var wholeCardClass;
-	wholeCardClass = card.attr("class")
+	wholeCardClass = card.attr("class");
 	wholeCardClass = wholeCardClass.split(" ");
  	cardCheck.push(wholeCardClass[1]);
 }
@@ -147,7 +147,7 @@ function checkMatches(card1,card2) {  //Verifies that the card classes in the ar
 	}
 	else {
 		setTimeout(function(){
-			hideCardSymbol(card1,card2)
+			hideCardSymbol(card1,card2);
 		},500);
 	}
 }
@@ -177,7 +177,6 @@ Javascript for the modal from https://sabe.io/tutorials/how-to-create-modal-popu
 */
 
 var modal = document.querySelector(".modal");
-var matchGame = document.querySelector(".restart");
 var closeButton = document.querySelector(".close-button");
 var againButton = document.querySelector(".again-button");
 
@@ -193,37 +192,26 @@ function windowOnClick(event) {
     }
 }
 
-matchGame.addEventListener("click", toggleModal);
+function refreshPage() {
+	document.location.reload();
+}
+
 closeButton.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
-againButton.addEventListener("click", restartGame);
+againButton.addEventListener("click", refreshPage);
+
 
 /*
-Alerts a final congratulations message with user stats
+Alerts a modal with a final congratulations message and user stats
 */
 
 function congratsMessage(){
-	if (matchedCards.length === 4){
+	if (matchedCards.length === 16){
 		setTimeout(function(){
 			toggleModal();
 			},1000);
 		stopTimer();
 	}
-}
-
-/*
-Below function calls all relevant functions when a user clicks a card, thus making a move
-*/
-
-function makeMove(){
-	$(".card").click(function(e){
-		showCardSymbol($(e.target));
-		addToCardCheck($(e.target));
-		if (cardCheck.length === 2) {
-			checkMatches();
-		};
-		congratsMessage();
-	});
 }
 
 function restartGame(){ //Reset the board when clicking the restart element
@@ -240,6 +228,21 @@ function restartGame(){ //Reset the board when clicking the restart element
 		makeMove();
 		clickCounter();
 		timer();
+	});
+}
+
+/*
+Below function calls all relevant functions when a user clicks a card, thus making a move
+*/
+
+function makeMove(){
+	$(".card").click(function(e){
+		showCardSymbol($(e.target));
+		addToCardCheck($(e.target));
+		if (cardCheck.length === 2) {
+			checkMatches();
+		}
+		congratsMessage();
 	});
 }
 
